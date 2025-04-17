@@ -78,6 +78,8 @@
                             min="0"
                             @input="convertToRial"
                         >
+                        <!-- the minimum amout is set to 0. -->
+                        <!-- @input is for using the convertToRial Function. -->
                     </div>
 
                     <div class="input-group">
@@ -89,6 +91,8 @@
                             min="0"
                             @input="convertToDollar"
                         >
+                        <!-- the minimum amout is set to 0. -->
+                        <!-- @input is for using the convertToDollar Function. -->
                     </div>
 
                     <p class="disclaimer">
@@ -105,12 +109,14 @@
                 createApp({
                     data() {
                         return {
-                            dollars: null, // The Initial amount is set null
-                            rials: null, // The Initial amount is set null
-                            exchangeRate: 880000 // Current rate
+                            // In this object our initial values or datas are stored.
+                            dollars: null, // The Initial amount is set null.
+                            rials: null, // The Initial amount is set null.
+                            exchangeRate: 880000 // Current rate.
                         }
                     },
                     methods: {
+                        // In this object we can write our functions.
                         convertToRial() {
                             if (this.dollars !== null && this.dollars !== '') {
                                 this.rials = this.dollars * this.exchangeRate;
