@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>USD/IRR Converter</title>
+            <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    min-height: 100vh;
+                    margin: 0;
+                    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+                }
+
+                .converter {
+                    background: white;
+                    padding: 2rem;
+                    border-radius: 10px;
+                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                    width: 90%;
+                    max-width: 500px;
+                }
+
+                h1 {
+                    color: #2c3e50;
+                    text-align: center;
+                    margin-bottom: 2rem;
+                }
+
+                .input-group {
+                    margin: 1.5rem 0;
+                }
+
+                label {
+                    display: block;
+                    margin-bottom: 0.5rem;
+                    color: #34495e;
+                    font-weight: bold;
+                }
+
+                input {
+                    width: 100%;
+                    padding: 0.8rem;
+                    border: 2px solid #bdc3c7;
+                    border-radius: 5px;
+                    font-size: 1rem;
+                    transition: border-color 0.3s ease;
+                }
+
+                input:focus {
+                    outline: none;
+                    border-color: #3498db;
+                }
+
+                .disclaimer {
+                    margin-top: 2rem;
+                    font-size: 0.8rem;
+                    color: #7f8c8d;
+                    text-align: center;
+                }
+            </style>
+        </head>
+        <body>
+            <div id="app">
+                <div class="converter">
+                    <h1>USD 🇺🇸 ↔ IRR 🇮🇷 Converter</h1>
+                    
+                    <div class="input-group">
+                        <label>US Dollars (USD)</label>
+                        <input 
+                            type="number" 
+                            v-model="dollars" 
+                            placeholder="Enter USD amount"
+                            min="0"
+                            @input="convertToRial"
+                        >
+                    </div>
+
+                    <div class="input-group">
+                        <label>Iranian Rials (IRR)</label>
+                        <input 
+                            type="number" 
+                            v-model="rials" 
+                            placeholder="Enter IRR amount"
+                            min="0"
+                            @input="convertToDollar"
+                        >
+                    </div>
+
+                    <p class="disclaimer">
+                        Exchange rate: 1 USD = {{ formatNumber(exchangeRate) }} IRR<br>
+                        USD to IRR Converter <br>
+                        ⚠️ Check the current Exchange Rate for more accurate results
+                    </p>
+                </div>
+            </div>
+
+            <script>
+                const { createApp } = Vue;
+
+                createApp({
+                    data() {
+                        return {
+                            dollars: null, // The Initial amount is set null
+                            rials: null, // The Initial amount is set null
+                            exchangeRate: 880000 // Current rate
+                        }
+                    },
+                    methods: {
+                        convertToRial() {
+                            if (this.dollars !== null && this.dollars !== '') {
+                                this.rials = this.dollars * this.exchangeRate;
+                            } else {
+                                this.rials = null;
+                            }
+                        },
+                        convertToDollar() {
+                            if (this.rials !== null && this.rials !== '') {
+                                this.dollars = this.rials / this.exchangeRate;
+                            } else {
+                                this.dollars = null;
+                            }
+                        },
+                        formatNumber(number) {
+                            return number.toLocaleString();
+                        }
+                    },
+                    watch: {
+                        dollars(newVal) {
+                            this.dollars = newVal < 0 ? 0 : newVal;
+                        },
+                        rials(newVal) {
+                            this.rials = newVal < 0 ? 0 : newVal;
+                        }
+                    }
+                }).mount('#app');
+            </script>
+        </body>
+</html>
